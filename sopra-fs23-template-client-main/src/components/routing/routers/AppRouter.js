@@ -1,5 +1,6 @@
 import {BrowserRouter, Redirect, Route, Switch} from "react-router-dom";
 import {GameGuard} from "components/routing/routeProtectors/GameGuard";
+import {UserInterfaceGuard} from "components/routing/routeProtectors/UserInterfaceGuard";
 import GameRouter from "components/routing/routers/GameRouter";
 import {LoginGuard} from "components/routing/routeProtectors/LoginGuard";
 import Login from "components/views/Login";
@@ -29,9 +30,13 @@ const AppRouter = () => {
           </LoginGuard>
         </Route>
         <Route exact path="/register">
-          
             <Register/>
-          
+
+        <Route path="/UserInterface/:token" >
+          <UserInterfaceGuard>
+            <GameRouter base="/game"/>
+          </UserInterfaceGuard>
+        </Route>    
         </Route>
 
 
