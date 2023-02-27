@@ -70,7 +70,14 @@ public class User implements Serializable {
   public UserStatus getStatus() {return status;}
   public void setStatus(UserStatus status) {this.status = status;}
 
-  //Creation Date
-  public Date getcreationDate() {return creationDate;}
-  public void setcreationDate(Date creationDate) {this.creationDate = creationDate;}
+  //Birthday
+  public Date getBirthday() {return birthday;}
+
+public void setBirthday(Date birthday) {this.birthday = birthday;}
+
+//Creation Date
+public Date getCreationDate() {return creationDate;}
+
+public void setCreationDate(Date creationDate) {this.creationDate = creationDate;}
+
 }

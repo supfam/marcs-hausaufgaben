@@ -20,7 +20,6 @@ import org.mapstruct.factory.Mappers;
 @Mapper
 public interface DTOMapper {
 
-
   //Changed inpus like password added token and username
   DTOMapper INSTANCE = Mappers.getMapper(DTOMapper.class);
 
@@ -33,5 +32,6 @@ public interface DTOMapper {
   @Mapping(source = "status", target = "status")
   @Mapping(source = "token", target = "token")
   @Mapping(source = "birthday", target = "birthday")
+  @Mapping(source = "creationDate", target = "creationDate")
   UserGetDTO convertEntityToUserGetDTO(User user);
 }

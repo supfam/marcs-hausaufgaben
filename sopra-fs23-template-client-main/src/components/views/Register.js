@@ -43,7 +43,7 @@ const Registration = props => {
   const [username, setUsername] = useState(null);
 
   const doRegistration = async () => {
-    try {
+    try {console.log("test");
       const requestBody = JSON.stringify({username, password});
       const response = await api.post('/users', requestBody);
       

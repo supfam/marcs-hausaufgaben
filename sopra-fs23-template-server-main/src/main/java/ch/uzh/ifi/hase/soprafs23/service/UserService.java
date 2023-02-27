@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
+import java.util.Optional;
 
 import java.util.List;
 import java.util.UUID;
@@ -61,19 +62,31 @@ public class UserService {
    * @param userToBeCreated
    * @throws org.springframework.web.server.ResponseStatusException
    * @see User
-   */
-  private void checkIfUserExists(User userToBeCreated) {
+   * 
+   *   private void checkIfUserExists(User userToBeCreated) {
     User userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
-    User userByName = userRepository.findByName(userToBeCreated.getName());
+
 
     String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created!";
-    if (userByUsername != null && userByName != null) {
+    if (userByUsername != null && userByUsername.getPassword != null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
           String.format(baseErrorMessage, "username and the password", "are"));
     } else if (userByUsername != null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "username", "is"));
-    } else if (userByName != null) {
+    } else if (userByPassword != null) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, String.format(baseErrorMessage, "password", "is"));
     }
   }
+   */
+  private void checkIfUserExists(User userToBeCreated) {
+   
+    Optional<User> userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
+    String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created! Thus the username aleady exists";
+    if (userByUsername.isPresent()) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "username", "is"));
+    }
+
 }
+
+}
+
