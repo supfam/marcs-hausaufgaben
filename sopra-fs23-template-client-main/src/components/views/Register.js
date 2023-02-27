@@ -15,12 +15,12 @@ specific components that belong to the main one in the same file.
  */
 const FormField = props => {
   return (
-    <div className="login field">
-      <label className="login label">
+    <div className="regiser field">
+      <label className="regiser label">
         {props.label}
       </label>
       <input
-        className="login input"
+        className="regiser input"
         placeholder="enter here.."
         value={props.value}
         onChange={e => props.onChange(e.target.value)}

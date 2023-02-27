@@ -87,7 +87,7 @@ const Login = props => {
               width="100%"
               onClick={() => history.push(`/register`)}
             >
-              Registration
+              Registration-Page
             </Button>
           </div>
 
