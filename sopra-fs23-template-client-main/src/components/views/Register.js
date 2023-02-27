@@ -23,6 +23,7 @@ const FormField = props => {
         className="regiser input"
         placeholder="enter here.."
         value={props.value}
+        type={props.type}
         onChange={e => props.onChange(e.target.value)}
       />
     </div>
@@ -30,6 +31,7 @@ const FormField = props => {
 };
 
 FormField.propTypes = {
+  type: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func
@@ -64,11 +66,13 @@ const Registration = props => {
         <div className="login form">
           <FormField
             label="enter username"
+            type = "text"
             value={username}
             onChange={un => setUsername(un)}
           />
           <FormField
             label="set password"
+            type = "password"
             value={password}
             onChange={n => setPassword(n)}
           />

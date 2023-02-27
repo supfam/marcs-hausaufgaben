@@ -22,6 +22,7 @@ const FormField = props => {
       <input
         className="login input"
         placeholder="enter here.."
+        type={props.type}
         value={props.value}
         onChange={e => props.onChange(e.target.value)}
       />
@@ -30,6 +31,7 @@ const FormField = props => {
 };
 
 FormField.propTypes = {
+  type: PropTypes.string,
   label: PropTypes.string,
   value: PropTypes.string,
   onChange: PropTypes.func
@@ -43,7 +45,7 @@ const Login = props => {
   const doLogin = async () => {
     try {
       const requestBody = JSON.stringify({username, password});
-      const response = await api.post('/users', requestBody);
+      const response = await api.post('/login', requestBody);
 
       // Get the returned user and update a new object.
       const user = new User(response.data);
@@ -64,11 +66,13 @@ const Login = props => {
         <div className="login form">
           <FormField
             label="Username"
+            type = "text"
             value={username}
             onChange={un => setUsername(un)}
           />
           <FormField
             label="password"
+            type = "password"
             value={password}
             onChange={n => setPassword(n)}
           />
