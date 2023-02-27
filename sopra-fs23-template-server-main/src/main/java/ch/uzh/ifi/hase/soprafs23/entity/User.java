@@ -40,52 +40,37 @@ public class User implements Serializable {
   private Date birthday;
 
   //Birthday does not has to be unique
-  @Column(nullable = false, unique = false)
+  @Column(nullable = true, unique = false)
   private Date creationDate;
 
-  @Column(nullable = false, unique = true)
+  //token nullable = false richtig
+  @Column(nullable = true, unique = true)
   private String token;
 
-  @Column(nullable = false)
+  @Column(nullable = true)
   private UserStatus status;
 
-  public Long getId() {
-    return id;
-  }
+  //User ID
+  public Long getId() {return id;}
+  public void setId(Long id) {this.id = id;}
 
-  public void setId(Long id) {
-    this.id = id;
-  }
+  //Password
+  public String getPassword() {return password;}
+  public void setPassword(String password) {this.password = password;}
 
-  public String getName() {
-    return password;
-  }
+  //Username
+  public String getUsername() {return username;}
+  public void setUsername(String username) {this.username = username;}
 
-  public void setName(String password) {
-    this.password = password;
-  }
+  //Token
+  public String getToken() {return token;}
+  public void setToken(String token) {this.token = token;}
 
-  public String getUsername() {
-    return username;
-  }
+  //User Status
+  public UserStatus getStatus() {return status;}
+  public void setStatus(UserStatus status) {this.status = status;}
 
-  public void setUsername(String username) {
-    this.username = username;
-  }
-
-  public String getToken() {
-    return token;
-  }
-
-  public void setToken(String token) {
-    this.token = token;
-  }
-
-  public UserStatus getStatus() {
-    return status;
-  }
-
-  public void setStatus(UserStatus status) {
-    this.status = status;
-  }
+  //Creation Date
+  public Date getcreationDate() {return creationDate;}
+  public void setcreationDate(Date creationDate) {this.creationDate = creationDate;}
 }

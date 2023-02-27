@@ -7,10 +7,10 @@ import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import "styles/views/Game.scss";
 
+//<div className="player name">{user.name}</div> rausgenommen
 const Player = ({user}) => (
   <div className="player container">
     <div className="player username">{user.username}</div>
-    <div className="player name">{user.name}</div>
     <div className="player id">id: {user.id}</div>
   </div>
 );

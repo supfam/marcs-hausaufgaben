@@ -8,30 +8,15 @@ public class UserPostDTO {
   private Date birthday;
 
   //Username
-  public String getUsername() {
-    return username;
-  }
-
-  public void setUsername(String username) {
-    this.username = username;
-  }
+  public String getUsername() {return username;}
+  public void setUsername(String username) {this.username = username;}
 
   //Password
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
+  public String getPassword() {return password;}
+  public void setPassword(String password) {this.password = password;}
 
   //Birthday
-  public Date getBirthday() {
-    return birthday;
-  }
-
-  public void setBirthday(Date birthday) {
-    this.birthday = birthday;
-  }
+  public Date getBirthday() {return birthday;}
+  public void setBirthday(Date birthday) {this.birthday = birthday;}
   
 }
