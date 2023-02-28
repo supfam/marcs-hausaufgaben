@@ -53,6 +53,21 @@ public class UserService {
     return newUser;
   }
 
+
+
+
+  public User getLoginFromUser(User user){
+    Optional<User> loginUser = userRepository.findByUsername(user.getUsername());
+    //If the user exists and the password provided is correct, the user is logged in
+    if(loginUser.isPresent() && loginUser.get().getPassword().equals(user.getPassword())){
+      return loginUser.get(); }
+    //If the user does not exist or the password provided is incorrect, an error is thrown  
+    else{
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username does not exist or is not matching with the provided Password"); }
+  }
+
+
+
   /**
    * This is a helper method that will check the uniqueness criteria of the
    * username and the name
@@ -81,12 +96,11 @@ public class UserService {
   private void checkIfUserExists(User userToBeCreated) {
    
     Optional<User> userByUsername = userRepository.findByUsername(userToBeCreated.getUsername());
-    String baseErrorMessage = "The %s provided %s not unique. Therefore, the user could not be created! Thus the username aleady exists";
+    String baseErrorMessage = "Unfortunately, the %s you entered %s already in use. Therefore we could not complete the registration.";
     if (userByUsername.isPresent()) {
         throw new ResponseStatusException(HttpStatus.CONFLICT, String.format(baseErrorMessage, "username", "is"));
     }
-
-}
+  }
 
 }
 
