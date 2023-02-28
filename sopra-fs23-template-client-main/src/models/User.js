@@ -5,7 +5,7 @@ class User {
   constructor(data = {}) {
     this.id = null;
     this.username = null;
-    this.creationDate = null;
+    this.creationDate = data.creationDate || null;
     this.token = null;
     this.status = null;
     this.birthday = null;
