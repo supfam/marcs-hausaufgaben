@@ -72,12 +72,10 @@ public class User implements Serializable {
 
   //Birthday
   public Date getBirthday() {return birthday;}
+  public void setBirthday(Date birthday) {this.birthday = birthday;}
 
-public void setBirthday(Date birthday) {this.birthday = birthday;}
-
-//Creation Date
-public Date getCreationDate() {return creationDate;}
-
-public void setCreationDate(Date creationDate) {this.creationDate = creationDate;}
+  //Creation Date
+  public Date getCreationDate() {return creationDate;}
+  public void setCreationDate(Date creationDate) {this.creationDate = creationDate;}
 
 }

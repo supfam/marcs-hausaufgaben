@@ -41,10 +41,16 @@ const Registration = props => {
   const history = useHistory();
   const [password, setPassword] = useState(null);
   const [username, setUsername] = useState(null);
+  const [creationDate, setCreationDate] = useState(null);
 
   const doRegistration = async () => {
-    try {console.log("test");
+    try {
       const requestBody = JSON.stringify({username, password});
+
+      // Get the current date and time.
+      const creationDate = new Date();
+      setCreationDate(creationDate.toISOString());
+
       const response = await api.post('/users', requestBody);
       
       // Get the returned user and update a new object.
