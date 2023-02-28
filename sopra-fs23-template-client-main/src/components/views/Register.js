@@ -48,13 +48,13 @@ const Registration = props => {
       const requestBody = JSON.stringify({username, password});
 
       // Get the current date and time.
-      const creationDate = new Date();
-      setCreationDate(creationDate.toISOString());
+      const currentDate  = new Date();
+      setCreationDate(currentDate.toISOString());
 
       const response = await api.post('/users', requestBody);
       
       // Get the returned user and update a new object.
-      const user = new User(response.data);
+      const user = new User(response.data, creationDate);
 
       // Store the token into the local storage.
       localStorage.setItem('token', user.token);
