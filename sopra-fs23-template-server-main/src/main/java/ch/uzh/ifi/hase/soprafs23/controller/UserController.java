@@ -65,7 +65,7 @@ public class UserController {
     User userInput = DTOMapper.INSTANCE.convertUserPostDTOtoEntity(userPostDTO);
 
     // search for the user in the database
-    User loggedUser = userService.createUser(userInput);
+    User loggedUser = userService.getLoginFromUser(userInput);
     // convert internal representation of user back to API
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loggedUser);
   }
