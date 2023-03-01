@@ -94,9 +94,10 @@ const Game = () => {
 
   return (
     <BaseContainer className="game container">
-      <h2>Happy Coding!</h2>
+      <h2>Users overview</h2>
       <p className="game paragraph">
-        Get all users from secure endpoint:
+        All registered users are listed below. <br />
+        By clicking on a user, you can see his/her profile.
       </p>
       {content}
     </BaseContainer>
