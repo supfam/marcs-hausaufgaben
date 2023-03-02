@@ -81,10 +81,7 @@ const Game = () => {
           {users.map(user => (
             <li key={user.id} onClick={() => history.push(`/profilepage/${user.id}`)}>
             <Player user={user} />
-            </li><Player 
-            user={user} 
-            key={user.id}
-            />
+            </li>
           ))} 
         </ul>
         <Button
