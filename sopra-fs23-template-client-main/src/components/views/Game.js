@@ -79,8 +79,13 @@ const Game = () => {
       <div className="game">
         <ul className="game user-list">
           {users.map(user => (
-            <Player user={user} key={user.id}/>
-          ))}
+            <li key={user.id} onClick={() => history.push(`/profilepage/${user.id}`)}>
+            <Player user={user} />
+            </li><Player 
+            user={user} 
+            key={user.id}
+            />
+          ))} 
         </ul>
         <Button
           width="100%"
