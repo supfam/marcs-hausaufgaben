@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import {useEffect, useState} from 'react';
+import React from 'react';
 import {api, handleError} from 'helpers/api';
 import User from 'models/User';
 import {useHistory} from 'react-router-dom';
@@ -6,101 +7,106 @@ import {Button} from 'components/ui/Button';
 import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
+import {Spinner} from 'components/ui/Spinner';
 
-/*
-It is possible to add multiple components inside a single file,
-however be sure not to clutter your files with an endless amount!
-As a rule of thumb, use one file per component and only add small,
-specific components that belong to the main one in the same file.
- */
-const FormField = props => {
-  return (
-    <div className="login field">
-      <label className="login label">
-        {props.label}
-      </label>
-      <input
-        className="login input"
-        placeholder="enter here.."
-        value={props.value}
-        onChange={e => props.onChange(e.target.value)}
-      />
+
+
+
+
+
+
+
+function ProfilePage() {
+  const [user, setUsers] = useState(null);
+
+
+  const Player = ({user}) => (
+    <div className="player container">
+      <div className="player username">{user.username}</div>
+      <div className="player id">id: {user.id}</div>
     </div>
   );
-};
-
-FormField.propTypes = {
-  label: PropTypes.string,
-  value: PropTypes.string,
-  onChange: PropTypes.func
-};
-
-const Registration = props => {
-  const history = useHistory();
-  const [password, setPassword] = useState(null);
-  const [username, setUsername] = useState(null);
-
-  const doRegistration = async () => {
-    try {console.log("Alarm läuft über falsche seite");
-      const requestBody = JSON.stringify({username, password});
-      const response = await api.post('/users', requestBody);
-      
-      // Get the returned user and update a new object.
-      const user = new User(response.data);
-
-      // Store the token into the local storage.
-      localStorage.setItem('token', user.token);
-
-      // Login successfully worked --> navigate to the route /game in the GameRouter
-      history.push(`/game`);
-    } catch (error) {
-      alert(`Something went wrong during the registration: \n${handleError(error)}`);
-    }
+  
+  Player.propTypes = {
+    user: PropTypes.object
   };
 
+
+
+  /** 
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const response = await fetch(`/users/${userId}`); // replace with your API endpoint
+        const data = await response.json();
+        setUser(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchUser();
+  }, [userId]); 
+  */
+
+
+  useEffect(() => {
+    // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
+    async function fetchData() {
+      try {
+        const response = await api.get('/users');
+
+        // delays continuous execution of an async operation for 1 second.
+        // This is just a fake async call, so that the spinner can be displayed
+        // feel free to remove it :)
+        await new Promise(resolve => setTimeout(resolve, 1000));
+
+        // Get the returned users and update the state.
+        setUsers(response.data);
+
+        // This is just some data for you to see what is available.
+        // Feel free to remove it.
+        console.log('request to:', response.request.responseURL);
+        console.log('status code:', response.status);
+        console.log('status text:', response.statusText);
+        console.log('requested data:', response.data);
+
+        // See here to get more data.
+        console.log(response);
+      } catch (error) {
+        console.error(`Something went wrong while fetching the users: \n${handleError(error)}`);
+        console.error("Details:", error);
+        alert("Something went wrong while fetching the users! See the console for details.");
+      }
+    }
+
+    fetchData();
+  }, []);
+
+
+
+
+
+
+
+
+
+
+
+
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <BaseContainer>
-      <div className="login container">
-        <div className="login form">
-          <FormField
-            label="enter username"
-            value={username}
-            onChange={un => setUsername(un)}
-          />
-          <FormField
-            label="set password"
-            value={password}
-            onChange={n => setPassword(n)}
-          />
-          <div className="login button-container">
-            <Button
-              disabled={!username || !password}
-              width="100%"
-              onClick={() => doRegistration()}
-            >
-              Registrate now
-            </Button>
-          </div>
-
-          <div className="login button-container">
-            <Button
-              
-              width="100%"
-              onClick={() => history.push(`/login`)}
-            >
-              Back to Login-Screen
-            </Button>
-          </div>
-
-
-        </div>
-      </div>
-    </BaseContainer>
+<ul className="game user-list">
+          {user.map(user => (
+            
+            <Player user={user} />
+            
+          ))} 
+        </ul>
   );
-};
+}
 
-/**
- * You can get access to the history object's properties via the withRouter.
- * withRouter will pass updated match, location, and history props to the wrapped component whenever it renders.
- */
-export default Registration;
+export default ProfilePage;
