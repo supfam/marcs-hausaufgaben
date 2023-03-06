@@ -55,6 +55,21 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(createdUser);
   }
 
+
+
+  //
+  @GetMapping("/users/{id}")
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public UserGetDTO getSingleUser(@PathVariable Long id) {
+    // fetch single user in the internal representation
+    User user = userService.getUserByID(id);
+    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(user);
+  }
+
+
+
+
   //Hinzugefügt
   //Funktion Log-In
   @PostMapping("/login")

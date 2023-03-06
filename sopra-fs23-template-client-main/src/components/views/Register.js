@@ -15,12 +15,12 @@ specific components that belong to the main one in the same file.
  */
 const FormField = props => {
   return (
-    <div className="regiser field">
-      <label className="regiser label">
+    <div className="login field">
+      <label className="register label">
         {props.label}
       </label>
       <input
-        className="regiser input"
+        className="login input"
         placeholder="enter here.."
         value={props.value}
         type={props.type}

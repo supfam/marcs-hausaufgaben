@@ -13,16 +13,33 @@ import { useParams } from "react-router";
 
 
 
-
+const FormField = props => {
+  return (
+    <div className="login field">
+      <label className="login label">
+        {props.label}
+      </label>
+      <input
+        className="login input"
+        placeholder="enter here.."
+        type={props.type}
+        value={props.value}
+        onChange={e => props.onChange(e.target.value)}
+      />
+    </div>
+  );
+};
 
 
 function ProfilePage() {
   const [users, setUsers] = useState(null);
+  const [birthdate, setBirthdate] = useState(null);
+  const [username, setUsername] = useState(null);
+  const history = useHistory();
 
   // Get ID from URL
   const params = useParams()
   const id = params.token;
-  console.log(id);
 
 
   const Player = ({user}) => (
@@ -52,7 +69,7 @@ function ProfilePage() {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     async function fetchData() {
       try {
-        const response = await api.get('/users/');
+        const response = await api.get(`/users/${id}`);
 
         // delays continuous execution of an async operation for 1 second.
         // This is just a fake async call, so that the spinner can be displayed
@@ -81,7 +98,7 @@ function ProfilePage() {
     }
 
     fetchData();
-  }, []);
+  }, [parseInt(id)]);
 
 
   let content = <Spinner />;
@@ -107,7 +124,64 @@ function ProfilePage() {
       {content}
     </BaseContainer>
   );
+
+
+function doChange() {
+  try {
+    const requestBody = JSON.stringify({
+      username: username,
+      birthdate: birthdate,
+    });
+    api.put('/users/' + id, requestBody);
+
+    // Get the returned users and update the state.
+    // Find the user with the corresponding ID
+    //const currentUser = users.find(user => user
+
+  } catch (error) {}}
+
+return (
+  <BaseContainer>
+    <div className="login container">
+      <div className="login form">
+        <FormField
+          label="Username"
+          type = "text"
+          value={username}
+          onChange={un => setUsername(un)}
+        />
+        <FormField
+          label="birthdate"
+          type = "date"
+          value={birthdate}
+          onChange={n => setBirthdate(n)}
+        />
+        <div className="login button-container">
+          <Button
+            width="100%"
+            onClick={() => doChange()}
+          >
+            Login
+          </Button>
+        </div>
+
+        <div className="login button-container">
+          <Button
+            width="100%"
+            onClick={() => history.push(`/register`)}
+          >
+            Registration-Page
+          </Button>
+        </div>
+
+
+      </div>
+    </div>
+  </BaseContainer>
+);
 }
+
+
 
 
 export default ProfilePage;

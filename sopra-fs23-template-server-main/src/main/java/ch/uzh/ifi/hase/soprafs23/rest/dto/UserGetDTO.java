@@ -23,11 +23,6 @@ public class UserGetDTO {
   public void setUsername(String username) {this.username = username;}
 
 
-  //Password
-  public String getPassword() {return password;}
-  public void setPassword(String password) {this.password = password;}
-
-
   //Status
   public UserStatus getStatus() {return status;}
   public void setStatus(UserStatus status) {this.status = status;}
@@ -36,11 +31,6 @@ public class UserGetDTO {
   //Birthday
   public Date getBirthday() {return birthday;}
   public void setBirthday(Date birthday) {this.birthday = birthday;}
-
-
-  //Token
-  public String getToken() {return token;}
-  public void setToken(String token) {this.token = token;}
 
 
   //Creation Date

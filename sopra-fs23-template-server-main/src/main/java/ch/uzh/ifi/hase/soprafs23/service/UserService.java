@@ -105,5 +105,17 @@ public class UserService {
     }
   }
 
+  public User getUserByID(Long id) {
+    Optional<User> user = userRepository.findById(id);
+    if (user.isPresent()) {
+      return user.get();
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user with the id " + id + " was not found");
+    }
+  }
+
+
+
+
 }
 
