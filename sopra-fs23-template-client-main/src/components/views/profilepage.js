@@ -1,7 +1,6 @@
 import {useEffect, useState} from 'react';
 import React from 'react';
 import {api, handleError} from 'helpers/api';
-import User from 'models/User';
 import {useHistory} from 'react-router-dom';
 import {Button} from 'components/ui/Button';
 import 'styles/views/Login.scss';
@@ -48,7 +47,7 @@ function ProfilePage() {
       <div className="player id">id: {user.id}</div>
       <div className="player status">Status:{user.status ? "Online" : "Offline"}</div>
       <div className="player created-at">Created at: {user.creationDate}</div>
-      {user.birthdate && (
+      {user.birthday && (
         <div className="player birthdate">Birthdate: {user.birthday}</div>
      )}
     </div>
@@ -58,7 +57,7 @@ function ProfilePage() {
   Player.propTypes = {
     user: PropTypes.shape({
     username: PropTypes.string.isRequired,
-    status: PropTypes.bool.isRequired,
+    status: PropTypes.string.isRequired,
     creationDate: PropTypes.string.isRequired,
     birthday: PropTypes.string,
   }).isRequired,
@@ -104,11 +103,10 @@ function ProfilePage() {
   let content = <Spinner />;
 
   if (users) {
-    const currentUser = users.find(user => user.id === parseInt(id));
     content = (
       <div className="game">
         <ul className="game user-list">
-          <Player user={currentUser} />
+          <Player user={users} />
         </ul>
       </div>
     );
@@ -122,23 +120,78 @@ function ProfilePage() {
         By clicking on a user, you can see his/her profile.
       </p>
       {content}
+
+      <div className="login container">
+      <div className="login form">
+        <FormField
+          label="Username"
+          type = "text"
+          value={username}
+          onChange={un => setUsername(un)}
+        />
+        <FormField
+          label="birthdate"
+          type = "date"
+          value={birthdate}
+          onChange={n => setBirthdate(n)}
+        />
+        <div className="login button-container">
+          <Button
+            width="100%"
+            onClick={() => doChange()}
+          >
+            Change
+          </Button>
+        </div>
+
+        <div className="login button-container">
+          <Button
+            width="100%"
+            onClick={() => history.goBack()}
+          >
+            Back to Overview
+          </Button>
+        </div>
+
+
+      </div>
+    </div>
+
+
     </BaseContainer>
   );
 
 
-function doChange() {
+async function doChange() {
   try {
     const requestBody = JSON.stringify({
       username: username,
-      birthdate: birthdate,
+      birthday: birthdate,
     });
-    api.put('/users/' + id, requestBody);
+    const response = await api.put(`/users/${id}` , requestBody);
 
     // Get the returned users and update the state.
     // Find the user with the corresponding ID
     //const currentUser = users.find(user => user
 
-  } catch (error) {}}
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    console.log(users)
+    const current = {...users}
+    current.username = username
+    current.birthday = birthdate
+    setUsers(current)
+
+
+
+    // See here to get more data.
+    console.log(response);
+  } catch (error) {
+    console.error(`Something went wrong while fetching the users: \n${handleError(error)}`);
+    console.error("Details:", error);
+    alert("Something went wrong while fetching the users! See the console for details.");
+  }}
+
+
 
 return (
   <BaseContainer>

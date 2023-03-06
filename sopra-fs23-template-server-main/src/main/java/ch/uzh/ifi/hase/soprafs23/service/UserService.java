@@ -3,6 +3,8 @@ package ch.uzh.ifi.hase.soprafs23.service;
 import ch.uzh.ifi.hase.soprafs23.constant.UserStatus;
 import ch.uzh.ifi.hase.soprafs23.entity.User;
 import ch.uzh.ifi.hase.soprafs23.repository.UserRepository;
+import ch.uzh.ifi.hase.soprafs23.rest.dto.UserPutDTO;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -115,7 +117,16 @@ public class UserService {
   }
 
 
-
-
+  public User updateUser(Long id, UserPutDTO userPutDTO) {
+    Optional<User> userToUpdate = userRepository.findById(id);
+    if (userToUpdate.isPresent()) {
+      userToUpdate.get().setUsername(userPutDTO.getUsername());
+      userToUpdate.get().setBirthday(userPutDTO.getBirthday());
+      User user = userRepository.save(userToUpdate.get());
+      userRepository.flush();
+      return user;
+    }
+    throw new ResponseStatusException(HttpStatus.NOT_FOUND, "The user with the id " + id + " was not found");
+  }
 }
 
