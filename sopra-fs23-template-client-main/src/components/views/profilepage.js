@@ -8,7 +8,7 @@ import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import {Spinner} from 'components/ui/Spinner';
-
+import { useParams } from "react-router-dom";
 
 
 
@@ -19,35 +19,31 @@ import {Spinner} from 'components/ui/Spinner';
 function ProfilePage() {
   const [user, setUsers] = useState(null);
 
+  // Get ID from URL
+  const params = useParams();
+
 
   const Player = ({user}) => (
     <div className="player container">
       <div className="player username">{user.username}</div>
       <div className="player id">id: {user.id}</div>
+      <div className="player status">{user.status ? "Online" : "Offline"}</div>
+      <div className="player created-at">Created at: {user.creationDate}</div>
+      {user.birthdate && (
+        <div className="player birthdate">Birthdate: {user.birthday}</div>
+     )}
     </div>
   );
   
   Player.propTypes = {
-    user: PropTypes.object
+    user: PropTypes.shape({
+    username: PropTypes.string.isRequired,
+    status: PropTypes.bool.isRequired,
+    creationDate: PropTypes.string.isRequired,
+    birthday: PropTypes.string,
+  }).isRequired,
   };
 
-
-
-  /** 
-  useEffect(() => {
-    async function fetchUser() {
-      try {
-        const response = await fetch(`/users/${userId}`); // replace with your API endpoint
-        const data = await response.json();
-        setUser(data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchUser();
-  }, [userId]); 
-  */
 
 
   useEffect(() => {
@@ -91,22 +87,15 @@ function ProfilePage() {
 
 
 
-
+  
 
 
   if (!user) {
     return <div>Loading...</div>;
   }
 
-  return (
-<ul className="game user-list">
-          {user.map(user => (
-            
-            <Player user={user} />
-            
-          ))} 
-        </ul>
-  );
+  return <Player user={user} />;
 }
+
 
 export default ProfilePage;
