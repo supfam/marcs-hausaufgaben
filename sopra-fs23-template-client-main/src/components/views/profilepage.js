@@ -8,7 +8,7 @@ import 'styles/views/Login.scss';
 import BaseContainer from "components/ui/BaseContainer";
 import PropTypes from "prop-types";
 import {Spinner} from 'components/ui/Spinner';
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 
 
 
@@ -17,17 +17,19 @@ import { useParams } from "react-router-dom";
 
 
 function ProfilePage() {
-  const [user, setUsers] = useState(null);
+  const [users, setUsers] = useState(null);
 
   // Get ID from URL
-  const params = useParams();
+  const params = useParams()
+  const id = params.token;
+  console.log(id);
 
 
   const Player = ({user}) => (
     <div className="player container">
-      <div className="player username">{user.username}</div>
+      <div className="player username">Name:{user.username}</div>
       <div className="player id">id: {user.id}</div>
-      <div className="player status">{user.status ? "Online" : "Offline"}</div>
+      <div className="player status">Status:{user.status ? "Online" : "Offline"}</div>
       <div className="player created-at">Created at: {user.creationDate}</div>
       {user.birthdate && (
         <div className="player birthdate">Birthdate: {user.birthday}</div>
@@ -35,6 +37,7 @@ function ProfilePage() {
     </div>
   );
   
+ 
   Player.propTypes = {
     user: PropTypes.shape({
     username: PropTypes.string.isRequired,
@@ -43,14 +46,13 @@ function ProfilePage() {
     birthday: PropTypes.string,
   }).isRequired,
   };
-
-
+  
 
   useEffect(() => {
     // effect callbacks are synchronous to prevent race conditions. So we put the async function inside:
     async function fetchData() {
       try {
-        const response = await api.get('/users');
+        const response = await api.get('/users/');
 
         // delays continuous execution of an async operation for 1 second.
         // This is just a fake async call, so that the spinner can be displayed
@@ -58,6 +60,8 @@ function ProfilePage() {
         await new Promise(resolve => setTimeout(resolve, 1000));
 
         // Get the returned users and update the state.
+        // Find the user with the corresponding ID
+        //const currentUser = users.find(user => user.id === id);
         setUsers(response.data);
 
         // This is just some data for you to see what is available.
@@ -80,21 +84,29 @@ function ProfilePage() {
   }, []);
 
 
+  let content = <Spinner />;
 
-
-
-
-
-
-
-  
-
-
-  if (!user) {
-    return <div>Loading...</div>;
+  if (users) {
+    const currentUser = users.find(user => user.id === parseInt(id));
+    content = (
+      <div className="game">
+        <ul className="game user-list">
+          <Player user={currentUser} />
+        </ul>
+      </div>
+    );
   }
 
-  return <Player user={user} />;
+  return (
+    <BaseContainer className="game container">
+      <h2>Profile page</h2>
+      <p className="game paragraph">
+        All registered users are listed below. <br />
+        By clicking on a user, you can see his/her profile.
+      </p>
+      {content}
+    </BaseContainer>
+  );
 }
 
 
