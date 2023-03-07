@@ -30,8 +30,10 @@ const Game = () => {
   // more information can be found under https://reactjs.org/docs/hooks-state.html
   const [users, setUsers] = useState(null);
 
-  const logout = () => {
+  async function logout () {
     localStorage.removeItem('token');
+    await api.get('/logout/'+ localStorage.getItem('id'));
+    localStorage.removeItem('id');
     history.push('/login');
   }
 
@@ -79,7 +81,7 @@ const Game = () => {
       <div className="game">
         <ul className="game user-list">
           {users.map(user => (
-            <li key={user.id} onClick={() => history.push(`/profilepage/${user.id}`)}>
+            <li key={user.id} onClick={() => history.push(`/game/profilepage/${user.id}`)}>
             <Player user={user} />
             </li>
           ))} 

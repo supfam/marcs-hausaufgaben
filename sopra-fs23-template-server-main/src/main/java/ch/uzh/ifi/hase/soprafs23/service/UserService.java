@@ -60,16 +60,37 @@ public class UserService {
 
 
 
-
+  //This method is used to login a user
   public User getLoginFromUser(User user){
     Optional<User> loginUser = userRepository.findByUsername(user.getUsername());
     //If the user exists and the password provided is correct, the user is logged in
-    if(loginUser.isPresent() && loginUser.get().getPassword().equals(user.getPassword())){
+    if(loginUser.isPresent() && loginUser.get().getPassword().equals(user.getPassword()))
+    
+    {loginUser.get().setStatus(UserStatus.ONLINE);
+    userRepository.save(loginUser.get());
+    userRepository.flush();
       return loginUser.get(); }
     //If the user does not exist or the password provided is incorrect, an error is thrown  
     else{
       throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username does not exist or is not matching with the provided Password"); }
   }
+
+
+  //This method is used to logout a user
+  public User getLogoutFromUser(Long id){
+    Optional<User> logoutUser = userRepository.findById(id);
+    if (logoutUser.isPresent())
+
+    {logoutUser.get().setStatus(UserStatus.OFFLINE);
+    userRepository.save(logoutUser.get());
+    userRepository.flush();
+      return logoutUser.get(); }
+    //If the user does not exist or the password provided is incorrect, an error is thrown  
+    else{
+      throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "Username does not exist or is not matching with the provided Password"); }
+  }
+
+
 
 
 

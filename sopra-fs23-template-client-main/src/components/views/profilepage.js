@@ -112,54 +112,52 @@ function ProfilePage() {
     );
   }
 
+  // Get ID from local storage to check if the user in question is logged in
+  const storedId = localStorage.getItem('id');
+
   return (
     <BaseContainer className="game container">
       <h2>Profile page</h2>
       <p className="game paragraph">
-        All registered users are listed below. <br />
-        By clicking on a user, you can see his/her profile.
+        This is the personal profile page of the user you are interested in. <br />
+        Information about this user is listed below.  <br />
+        Please remember that user-specific changes can only be made from the user account in question.
       </p>
       {content}
 
+      {storedId !== null && parseInt(storedId) === parseInt(id) ? (
       <div className="login container">
-      <div className="login form">
-        <FormField
-          label="Username"
-          type = "text"
-          value={username}
-          onChange={un => setUsername(un)}
-        />
-        <FormField
-          label="birthdate"
-          type = "date"
-          value={birthdate}
-          onChange={n => setBirthdate(n)}
-        />
-        <div className="login button-container">
-          <Button
-            width="100%"
-            onClick={() => doChange()}
-          >
-            Change
-          </Button>
+        <div className="login form">
+          <FormField
+            label="Username"
+            type="text"
+            value={username}
+            onChange={(un) => setUsername(un)}
+          />
+          <FormField
+            label="birthdate"
+            type="date"
+            value={birthdate}
+            onChange={(n) => setBirthdate(n)}
+          />
+          <div className="login button-container">
+            <Button width="100%" onClick={() => doChange()}>
+              Change
+            </Button>
+          </div>
         </div>
-
-        <div className="login button-container">
-          <Button
-            width="100%"
-            onClick={() => history.goBack()}
-          >
-            Back to Overview
-          </Button>
-        </div>
-
-
       </div>
+     ) : null}
+
+    <div className="login button-container">
+      <Button width="100%" onClick={() => history.goBack()}>
+        Back to Overview
+      </Button>
     </div>
+  </BaseContainer>
+);
 
-
-    </BaseContainer>
-  );
+      
 
 
 async function doChange() {
@@ -233,8 +231,6 @@ return (
   </BaseContainer>
 );
 }
-
-
 
 
 export default ProfilePage;

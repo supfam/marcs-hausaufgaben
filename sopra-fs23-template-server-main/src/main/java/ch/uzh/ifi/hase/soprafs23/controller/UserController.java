@@ -96,4 +96,21 @@ public class UserController {
     return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loggedUser);
   }
 
+
+  //Funktion Log-Out
+  @GetMapping("/logout/{id}")
+  @ResponseStatus(HttpStatus.ACCEPTED)
+  @ResponseBody
+  public UserGetDTO logoutUser(@PathVariable Long id) {
+
+    // search for the user in the database
+    User loggedUser = userService.getLogoutFromUser(id);
+    // convert internal representation of user back to API
+    return DTOMapper.INSTANCE.convertEntityToUserGetDTO(loggedUser);
+  }
+
+
+
+
+
 }

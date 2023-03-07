@@ -23,6 +23,7 @@ const AppRouter = () => {
         <Route path="/game">
           <GameGuard>
             <GameRouter base="/game" />
+            
           </GameGuard>
         </Route>
         <Route exact path="/login">
@@ -34,9 +35,7 @@ const AppRouter = () => {
           <Register />
           </Route>
 
-          <Route path="/profilepage/:token">
-          <ProfilePage />
-          </Route>
+         
           
         
 

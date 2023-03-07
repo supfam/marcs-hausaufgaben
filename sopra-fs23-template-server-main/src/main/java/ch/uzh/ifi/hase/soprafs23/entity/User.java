@@ -24,6 +24,7 @@ public class User implements Serializable {
 
   //Changed name to password
 
+  //User ID unique value
   @Id
   @GeneratedValue
   private Long id;
